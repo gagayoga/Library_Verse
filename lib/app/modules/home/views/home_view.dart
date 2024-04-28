@@ -428,7 +428,7 @@ class HomeView extends GetView<HomeController> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: SizedBox(
-                        height: 280, // Sesuaikan tinggi container sesuai kebutuhan Anda
+                        height: 288, // Sesuaikan tinggi container sesuai kebutuhan Anda
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: bukuList!.length,
@@ -489,15 +489,15 @@ class HomeView extends GetView<HomeController> {
                                         CrossAxisAlignment.start,
                                         children: [
                                           const SizedBox(height: 8),
-                                          FittedBox(
-                                            child: Text(
-                                              buku.judul!,
-                                              style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black,
-                                                  fontSize: 14.0),
-                                              textAlign: TextAlign.center,
-                                            ),
+                                          Text(
+                                            buku.judul!,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                                fontSize: 14.0),
+                                            textAlign: TextAlign.start,
                                           ),
                                           const SizedBox(height: 4),
                                           FittedBox(

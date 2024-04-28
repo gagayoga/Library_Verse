@@ -165,7 +165,7 @@ class BookmarkView extends GetView<BookmarkController> {
                                 ),
 
                                 const SizedBox(
-                                  width: 10,
+                                  width: 5,
                                 ),
 
                                 Flexible(
@@ -183,7 +183,7 @@ class BookmarkView extends GetView<BookmarkController> {
                                             color: const Color(0xFF260534),
                                             fontSize: 18.0,
                                           ),
-                                          maxLines: 2,
+                                          maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.start,
                                         ),

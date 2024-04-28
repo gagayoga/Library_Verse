@@ -20,7 +20,7 @@ class BookView extends GetView<BookController> {
 
     return Scaffold(
         appBar: AppBar(
-          titleSpacing: -5,
+          titleSpacing: 10,
           title: const Image(
             image: AssetImage('assets/images/font_libryverse.png'),
             width: 120.0,
@@ -99,7 +99,7 @@ class BookView extends GetView<BookController> {
           crossAxisCount: 2,
           crossAxisSpacing: 10.0,
           mainAxisSpacing: 10.0,
-          childAspectRatio: 3 / 6.7,
+          childAspectRatio: 3 /6.2,
         ),
         itemCount: controller.dataSemuaBook.length,
         itemBuilder: (context, index) {
@@ -137,10 +137,10 @@ class BookView extends GetView<BookController> {
                         children: [
                           Text(
                             buku.judul!,
-                            maxLines: 2,
+                            maxLines: 1,
                             style: GoogleFonts.inter(
                               fontWeight: FontWeight.w700,
-                              color: const Color(0xFF5000CA),
+                              color: const Color(0xFFFF0000),
                               fontSize: 18.0,
                             ),
                             textAlign: TextAlign.start,

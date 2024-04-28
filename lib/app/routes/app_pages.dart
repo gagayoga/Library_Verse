@@ -26,6 +26,8 @@ import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
+import '../modules/updateprofile/bindings/updateprofile_binding.dart';
+import '../modules/updateprofile/views/updateprofile_view.dart';
 
 part 'app_routes.dart';
 
@@ -99,6 +101,11 @@ class AppPages {
       name: _Paths.DETAILBUKU,
       page: () => const DetailbukuView(),
       binding: DetailbukuBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATEPROFILE,
+      page: () => const UpdateprofileView(),
+      binding: UpdateprofileBinding(),
     ),
   ];
 }

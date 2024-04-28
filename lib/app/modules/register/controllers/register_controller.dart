@@ -48,7 +48,7 @@ class RegisterController extends GetxController {
         );
         if (response.statusCode == 201) {
           Get.offAllNamed(Routes.LOGIN);
-          Get.snackbar("Success", "Register success, please login", backgroundColor: Colors.red);
+          Get.snackbar("Success", "Register success, please login", backgroundColor: Colors.red, colorText: Colors.white);
         }else {
           Get.snackbar("Sorry", "Failed to Register", backgroundColor: Colors.orange);
         }
@@ -57,7 +57,7 @@ class RegisterController extends GetxController {
       loading(false);
       if (e.response != null) {
         if (e.response?.data != null) {
-          Get.snackbar("Sorry", "${e.response?.data['Message']}", backgroundColor: Colors.orange);
+          Get.snackbar("Sorry", "${e.response?.data['message']}", backgroundColor: Colors.orange);
         }
       }else{
         Get.snackbar("Sorry", "${e.response?.data['message']}", backgroundColor: Colors.red);

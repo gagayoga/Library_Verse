@@ -1,14 +1,15 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:peminjam_perpustakaan_kelas_b/app/data/provider/storage_provider.dart';
 
 import '../../../data/constant/endpoint.dart';
+import '../../../data/model/peminjaman/response_detail_peminjaman.dart';
 import '../../../data/model/peminjaman/response_history_peminjaman.dart';
 import '../../../data/provider/api_provider.dart';
 
@@ -17,9 +18,12 @@ class PeminjamanController extends GetxController with StateMixin{
   var historyPeminjaman = RxList<DataHistory>();
   String idUser = StorageProvider.read(StorageKey.idUser);
 
+  var detailPeminjaman = Rxn<DetailPeminjaman>();
+
   // Post Ulasan
   double ratingBuku= 0;
   final loadingUlasan = false.obs;
+  final loadingPinjam = false.obs;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController ulasanController = TextEditingController();
@@ -65,6 +69,42 @@ class PeminjamanController extends GetxController with StateMixin{
         final responseData = e.response?.data;
         if (responseData != null) {
           final errorMessage = responseData['Message'] ?? "Unknown error";
+          change(null, status: RxStatus.error(errorMessage));
+        }
+      } else {
+        change(null, status: RxStatus.error(e.message));
+      }
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
+    }
+  }
+
+  Future<void> getDataDetailPeminjaman(String? idPinjam) async {
+    detailPeminjaman.value == null;
+    change(null, status: RxStatus.loading());
+
+    try {
+      final responseDetailBuku = await ApiProvider.instance().get(
+          '${Endpoint.detailPeminjaman}/$idPinjam');
+
+      if (responseDetailBuku.statusCode == 200) {
+        final ResponseDetailPeminjaman responseDetailPeminjaman = ResponseDetailPeminjaman.fromJson(responseDetailBuku.data);
+
+        if (responseDetailPeminjaman.data == null) {
+          detailPeminjaman.value == null;
+          change(null, status: RxStatus.empty());
+        } else {
+          detailPeminjaman(responseDetailPeminjaman.data);
+          change(null, status: RxStatus.success());
+        }
+      } else {
+        change(null, status: RxStatus.error("Gagal Memanggil Data"));
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        final responseData = e.response?.data;
+        if (responseData != null) {
+          final errorMessage = responseData['message'] ?? "Unknown error";
           change(null, status: RxStatus.error(errorMessage));
         }
       } else {
@@ -246,5 +286,94 @@ class PeminjamanController extends GetxController with StateMixin{
           },
         ),
     );
+  }
+
+  updatePeminjaman(String peminjamanID, String asal) async {
+    loadingPinjam(true);
+    try {
+      FocusScope.of(Get.context!).unfocus();
+      var response;
+      if (asal == "booking"){
+        response = await ApiProvider.instance().patch(
+            '${Endpoint.updatePeminjaman}booking/$peminjamanID');
+      }else{
+        response = await ApiProvider.instance().patch(
+            '${Endpoint.updatePeminjaman}$peminjamanID');
+      }
+
+      if (response.statusCode == 200) {
+        ArtSweetAlert.show(
+            context: Get.context!,
+            artDialogArgs: ArtDialogArgs(
+              title: "Success",
+              text: "Buku berhasil dikembalikan",
+            )
+        );
+        Navigator.of(Get.context!).pop();
+        getDataPeminjaman();
+      } else {
+        Fluttertoast.showToast(
+          msg: "Buku gagal dikembalikan",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: const Color(0xFFF5F5F5),
+          textColor: Colors.black,
+        );
+      }
+      loadingPinjam(false);
+    } on DioException catch (e) {
+      loadingPinjam(false);
+      if (e.response != null) {
+        if (e.response?.data != null) {
+          Fluttertoast.showToast(
+            msg: e.response?.data?['Message'] ?? "Terjadi kesalahan",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: const Color(0xFFF5F5F5),
+            textColor: Colors.black,
+          );
+        }
+      } else {
+        Fluttertoast.showToast(
+          msg: e.message ?? "Terjadi kesalahan",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: const Color(0xFFF5F5F5),
+          textColor: Colors.black,
+        );
+      }
+    } catch (e) {
+      loadingPinjam(false);
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: const Color(0xFFF5F5F5),
+        textColor: Colors.black,
+      );
+    }
+  }
+
+  void showkonfirmasiPeminjaman(String idPeminjaman, String asal) async{
+    ArtDialogResponse response = await ArtSweetAlert.show(
+        barrierDismissible: false,
+        context: Get.context!,
+        artDialogArgs: ArtDialogArgs(
+            denyButtonText: "Belum",
+            title: "Konfirmasi Peminjaman Buku",
+            text: "Apakah buku Anda sudah di ambil di perpustakaan?",
+            confirmButtonText: "Sudah",
+            type: ArtSweetAlertType.question
+        )
+    );
+
+    if(response==null) {
+      return;
+    }
+
+    if(response.isTapConfirmButton) {
+      updatePeminjaman(idPeminjaman, asal);
+      return null;
+    }
   }
 }

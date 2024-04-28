@@ -2,7 +2,6 @@ import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:peminjam_perpustakaan_kelas_b/app/data/provider/storage_provider.dart';
 import 'package:peminjam_perpustakaan_kelas_b/app/routes/app_pages.dart';
 
@@ -22,16 +21,14 @@ class ProfileView extends GetView<ProfileController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
               CircularProfileAvatar(
           //                  'https://avatars0.githubusercontent.com/u/8264639?s=460&v=4',
                 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWtMDksH9GzFdMinyAkGbtLJNx6xynLETTNN5akjxirL3QD5Rj',
-                errorWidget: (context, url, error) => Container(
-                  child: Icon(Icons.error),
-                ),
-                placeHolder: (context, url) => Container(
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                placeHolder: (context, url) => const SizedBox(
                   width: 50,
                   height: 50,
                   child: CircularProgressIndicator(),
@@ -39,7 +36,7 @@ class ProfileView extends GetView<ProfileController> {
                 radius: 90,
                 backgroundColor: Colors.redAccent,
                 borderWidth: 1,
-                   initialsText: Text(
+                   initialsText: const Text(
                      "Addd",
                      style: TextStyle(fontSize: 40, color: Colors.white),
                    ),
@@ -89,8 +86,10 @@ class ProfileView extends GetView<ProfileController> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
-                        onTap: (){},
-                           child : Row(
+                        onTap: (){
+                          Get.toNamed(Routes.UPDATEPROFILE);
+                        },
+                           child : const Row(
                              mainAxisAlignment: MainAxisAlignment.start,
                              crossAxisAlignment: CrossAxisAlignment.center,
                              children: [
@@ -105,7 +104,7 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 6
                   ),
                   Container(
@@ -119,7 +118,7 @@ class ProfileView extends GetView<ProfileController> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
                         onTap: (){},
-                        child : Row(
+                        child : const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -134,7 +133,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       height: 6
                   ),
                   Container(
@@ -148,7 +147,7 @@ class ProfileView extends GetView<ProfileController> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
                         onTap: (){},
-                        child : Row(
+                        child : const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -163,7 +162,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       height: 20
                   ),
                   Container(
@@ -177,7 +176,7 @@ class ProfileView extends GetView<ProfileController> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
                         onTap: (){},
-                        child : Row(
+                        child : const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -192,7 +191,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       height: 6
                   ),
                   Container(
@@ -206,7 +205,7 @@ class ProfileView extends GetView<ProfileController> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
                         onTap: (){},
-                        child : Row(
+                        child : const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -221,7 +220,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       height: 6
                   ),
                   Container(
@@ -235,7 +234,7 @@ class ProfileView extends GetView<ProfileController> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
                         onTap: (){},
-                        child : Row(
+                        child : const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -250,7 +249,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       height: 6
                   ),
                   Container(
@@ -264,7 +263,7 @@ class ProfileView extends GetView<ProfileController> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
                         onTap: (){},
-                        child : Row(
+                        child : const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -279,7 +278,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       height: 6
                   ),
                   Container(
@@ -295,7 +294,7 @@ class ProfileView extends GetView<ProfileController> {
                         onTap: (){
                           controller.logout();
                         },
-                        child : Row(
+                        child : const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -309,6 +308,10 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                       ),
                     ),
+                  ),
+
+                  const SizedBox(
+                      height: 15
                   ),
                 ],
               ),
